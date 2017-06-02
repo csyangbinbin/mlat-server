@@ -366,6 +366,29 @@ class DF18(ExtendedSquitter):
         self.address = self.AA
 
 
+class ACMode:
+    def __init__(self ,ac):
+        modeac =(0x0010 if ((ac[0] & 0x10)) else 0 ) | \
+                (0x1000 if ((ac[0] & 0x08)) else 0 ) | \
+                (0x0020 if ((ac[0] & 0x04)) else 0) | \
+                (0x2000 if ((ac[0] & 0x02)) else 0) | \
+                (0x0040 if ((ac[0] & 0x01)) else 0) | \
+                (0x4000 if ((ac[1] & 0x80)) else 0) | \
+                (0x0100 if ((ac[1] & 0x20)) else 0) | \
+                (0x0001 if ((ac[1] & 0x10)) else 0) | \
+                (0x0200 if ((ac[1] & 0x08)) else 0) | \
+                (0x0002 if ((ac[1] & 0x04)) else 0) | \
+                (0x0400 if ((ac[1] & 0x02)) else 0) | \
+                (0x0004 if ((ac[1] & 0x01)) else 0) | \
+                (0x0080 if ((ac[0] & 0x80)) else 0)
+
+        self.address = (modeac & 0x7777) | 0x00FF0000
+        self.altitude = None ;
+        self.squawk = modeac & 0x7777 ;
+        self.callsign = None ;
+
+
+
 message_types = {
     0: DF0,
     4: DF4,
@@ -375,7 +398,8 @@ message_types = {
     17: DF17,
     18: DF18,
     20: DF20,
-    21: DF21
+    21: DF21,
+    32: ACMode
 }
 
 
@@ -389,8 +413,23 @@ def decode(frombuf):
     handled.
     """
 
-    df = (frombuf[0] & 0xf8) >> 3
+    if(len(frombuf) == 2):
+        df =32
+    else:
+        df = (frombuf[0] & 0xf8) >> 3
     try:
         return message_types[df](frombuf)
     except KeyError:
         return None
+
+   # if(len(frombuf) == 2):
+     #   try:
+    #        return message_types[32](frombuf)
+     #   except KeyError:
+    #        return None
+   # else:
+   #     df = (frombuf[0] & 0xf8) >> 3
+    ##    try:
+      #     return message_types[df](frombuf)
+     #   except KeyError:
+      #      return None

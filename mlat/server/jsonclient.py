@@ -550,8 +550,20 @@ class JsonClient(connection.Connection):
             self.process_rate_report_message(msg['rate_report'])
         elif 'quine' in msg:
             self.process_quine_message(msg['quine'])
+        elif 'position_update' in msg:
+            loc = msg['position_update']
+            lat =  float(loc['lat'])
+            lon = float(loc['lon'])
+            alt = float(loc['alt'])
+            if(lat==0 or lon==0):
+                return
+            position_llh = ( lat, lon  ,alt  )
+            self.process_position_update(position_llh)
         else:
             self.logger.info('Received an unexpected message: %s', msg)
+
+    def process_position_update(self ,position_llh):
+        self.coordinator.receiver_location_update(self.receiver  , position_llh)
 
     def process_sync(self, et, ot, em, om):
         self.coordinator.receiver_sync(self.receiver, et, ot, em, om)

@@ -29,7 +29,7 @@ from mlat import constants
 #
 # Please remember that this needs to be _the code that the server is running_.
 #
-# AGPL_SERVER_CODE_URL = "https://github.com/mutability/mlat-server"
+AGPL_SERVER_CODE_URL = "https://github.com/mutability/mlat-server"
 
 # minimum NUCp value to accept as a sync message
 MIN_NUC = 6
@@ -49,5 +49,7 @@ MLAT_DELAY = 2.5
 # maxfev (maximum function evaluations) for the solver
 SOLVER_MAXFEV = 50
 
+
 if 'AGPL_SERVER_CODE_URL' not in globals():
-    raise RuntimeError('Please update AGPL_SERVER_CODE_URL in mlat/server/config.py')
+        raise RuntimeError('Please update AGPL_SERVER_CODE_URL in mlat/server/config.py')
+

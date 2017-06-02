@@ -292,6 +292,7 @@ class Coordinator(object):
     @profile.trackcpu
     def receiver_location_update(self, receiver, position_llh):
         """Note that a given receiver has moved."""
+        print("Receiver {r} Position Update {p}".format(r=receiver.user ,p = position_llh))
         receiver.position_llh = position_llh
         receiver.position = geodesy.llh2ecef(position_llh)
 
