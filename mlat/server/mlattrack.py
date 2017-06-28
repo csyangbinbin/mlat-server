@@ -162,11 +162,11 @@ class MlatTracker(object):
 
         # basic ratelimit before we do more work
         elapsed = group.first_seen - last_result_time
-        if elapsed < 15.0 and dof < last_result_dof:
-            return
+        #if elapsed < 15.0 and dof < last_result_dof:
+        #   return
 
-        if elapsed < 2.0 and dof == last_result_dof:
-            return
+        #if elapsed < 2.0 and dof == last_result_dof:
+        #   return
 
         # normalize timestamps. This returns a list of timestamp maps;
         # within each map, the timestamp values are comparable to each other.
